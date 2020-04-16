@@ -1,6 +1,5 @@
 package com.alejandrazuleta.practica8.model
 
-
 import com.google.gson.annotations.SerializedName
 
 data class Cupones(
