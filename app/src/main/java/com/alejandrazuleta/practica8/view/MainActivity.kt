@@ -58,18 +58,5 @@ class MainActivity : AppCompatActivity(){
         })
     }
 
-    fun showErrorLoadDeals(message: String?) {
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
-    }
-
-    fun showProgresBar() {
-        progressBar.visibility = View.VISIBLE
-    }
-
-    fun hideProgresBar() {
-        progressBar.visibility = View.GONE
-    }
-
-
 }
 
