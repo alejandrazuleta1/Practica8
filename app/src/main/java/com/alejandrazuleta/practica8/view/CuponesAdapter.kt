@@ -30,10 +30,18 @@ class CuponesAdapter(var mainViewModel: MainViewModel) :
         return CuponesViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = cuponesList?.size?: 0
+    override fun getItemCount(): Int = cuponesList?.size ?: 0
 
     override fun onBindViewHolder(holder: CuponesViewHolder, position: Int) {
         holder.setOffer(mainViewModel,position)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return getLayoutIdForPosition(position)
+    }
+
+    private fun getLayoutIdForPosition(position: Int): Int {
+        return R.layout.cupon_list_item
     }
 
     class CuponesViewHolder(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
