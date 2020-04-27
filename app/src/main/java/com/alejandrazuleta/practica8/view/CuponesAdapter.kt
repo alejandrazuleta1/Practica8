@@ -4,57 +4,51 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.alejandrazuleta.practica8.BR
 import com.alejandrazuleta.practica8.R
 import com.alejandrazuleta.practica8.model.Offer
+import com.alejandrazuleta.practica8.viewmodel.MainViewModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.cupon_list_item.view.*
 
-class CuponesAdapter(cuponesList: ArrayList<Offer>) :
+class CuponesAdapter(var mainViewModel: MainViewModel) :
     RecyclerView.Adapter<CuponesAdapter.CuponesViewHolder>() {
 
-    private var cuponesList = ArrayList<Offer>()
+    private var cuponesList : List<Offer>?= null
 
-    init {
-        this.cuponesList = cuponesList
+    fun setOffersList(offers: List<Offer>){
+        this.cuponesList = offers
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CuponesViewHolder {
-        val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.cupon_list_item, parent, false)
-        return CuponesViewHolder(
-            itemView
-        )
+        val layoutInflater:LayoutInflater= LayoutInflater.from(parent.context)
+        val binding: ViewDataBinding =
+            DataBindingUtil.inflate(layoutInflater, viewType,parent,false)
+        return CuponesViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = cuponesList.size
+    override fun getItemCount(): Int = cuponesList?.size?: 0
 
     override fun onBindViewHolder(holder: CuponesViewHolder, position: Int) {
-        val offer = cuponesList[position]
-        holder.setOffer(offer)
+        holder.setOffer(mainViewModel,position)
     }
 
-    class CuponesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+    class CuponesViewHolder(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
+    {
 
-        private var offer: Offer? = null
+        private var binding: ViewDataBinding ? = null
 
         init {
-            itemView.setOnClickListener(this)
+            this.binding = binding
         }
 
-        fun setOffer(offer: Offer) {
-            this.offer = offer
-            itemView.tv_title.text = offer.title
-            itemView.tv_store.text = offer.store
-            itemView.tv_off.text = offer.offerValue
-            if(offer.imageUrl.isNotEmpty()) Glide.with(itemView.context).load(offer.imageUrl).into(itemView.iv_picture)
-        }
-
-        override fun onClick(v: View) {
-            val intent = Intent(itemView.context, DetailActivity::class.java)
-            intent.putExtra("offer", offer)
-            itemView.context.startActivity(intent)
+        fun setOffer(mainViewModel: MainViewModel,position: Int) {
+            binding?.setVariable(BR.model,mainViewModel)
+            binding?.setVariable(BR.position,position)
+            binding?.executePendingBindings()
         }
 
 
