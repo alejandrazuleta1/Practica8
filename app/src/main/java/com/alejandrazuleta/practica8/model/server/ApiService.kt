@@ -1,5 +1,6 @@
-package com.alejandrazuleta.practica8.model
+package com.alejandrazuleta.practica8.model.server
 
+import com.alejandrazuleta.practica8.model.Cupones
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
